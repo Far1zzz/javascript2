@@ -24,6 +24,7 @@
 let txtNpm = document.getElementById("npm")
 let txtNama = document.getElementById("nama")
 let listMhs = document.getElementById("listMahasiswa")
+let tblMhs = document.getElementById("tblMahasiswa")
 
 
 let data = []
@@ -34,9 +35,27 @@ function simpan(){
     console.log(txtNpm.value)
     console.log(txtNama.value)
 
-    // simpan ke array data
-    data.push({"npm" : txtNpm.value,
-            "nama" : txtNama.value})
+
+    // cek apakah ada data di dalam local storage dengan key ls mahasiswa
+    if(localStorage.getItem("lsMahasiswa")===null){
+        // jika localStorage dengan key lsMahasiswa
+
+        // simpan ke array data
+        data.push({"npm" : txtNpm.value, "nama" : txtNama.value})
+
+        // simpan localStorage dengan key lsMahasiswa
+        localStorage.setItem("lsMahasiswa", JSON.stringify(data))
+    }else{
+        // jka localStorage dengan key lsMahasiswa sudah ada/sudah disimpan sebelomnya
+
+        // ambil dulu data di localStorage dengan key lsMahasiswa
+        let dataLs = JSON.parse(localStorage.getItem("lsMahasiswa"))
+        console.log(dataLs)
+        //push datta baru ke dalam array
+        dataLs.push({"npm": txtNpm.value, "nama": txtNama.value})
+        // simpan data baru kedalam localStorage
+        localStorage.setItem("lsMahasiswa", JSON.stringify(dataLs))
+    }
 
     tampil()
 }
@@ -46,8 +65,14 @@ function tampil(){
     listMhs.innerHTML = ""
     // gunakan foreach
     data.forEach(listData)
+
+    let dataTampil = JSON.parse(localStorage.getItem("lsMahasiswa"))
+    dataTampil.forEach(listData)
 }
 
 function listData(item, index){
-    listMhs.innerHTML += item.npm +"-"+ item.nama
+    // innerHtml elemen ul id= "listMahasiswa" pada index.html
+    listMhs.innerHTML += "<li>" + item.npm +"-"+ item.nama +"</li>"
+    // innerHtml elemen table id= "tblMahasiswa" pada index html
+    tblMhs.innerHTML += `<tr><td>${item.npm}</td><td>${item.nama}</td><tr>`
 }
