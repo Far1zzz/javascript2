@@ -28,7 +28,7 @@ let tblMhs = document.getElementById("tblMahasiswa")
 
 
 let data = []
-
+tampil()
 function simpan(){
     console.log("button was click")
 
@@ -66,13 +66,16 @@ function tampil(){
     // gunakan foreach
     data.forEach(listData)
 
+    // clear elemen tblMahasiswa
+    tblMhs.innerHTML = ""
+    // ambil data localStorage dengan key lsMahasiswa
     let dataTampil = JSON.parse(localStorage.getItem("lsMahasiswa"))
     dataTampil.forEach(listData)
 }
 
 function listData(item, index){
     // innerHtml elemen ul id= "listMahasiswa" pada index.html
-    listMhs.innerHTML += "<li>" + item.npm +"-"+ item.nama +"</li>"
+    listMhs.innerHTML += "<li class ='list-group-item'>" + item.npm +"-"+ item.nama +"</li>"
     // innerHtml elemen table id= "tblMahasiswa" pada index html
     tblMhs.innerHTML += `<tr><td>${item.npm}</td><td>${item.nama}</td><tr>`
 }
